@@ -712,17 +712,17 @@
 				if (istype(P.loc, /obj/structure/closet))
 					P.visible_message("<B>[H]</B> клан[ya]етс[ya] <B>[P]</B>.")
 
-		if (href_list["interaction"] == "pet")
+		else if (href_list["interaction"] == "pet")
 			if(((!istype(P.loc, /obj/structure/closet)) || (H.loc == P.loc)) && hashands && !H.restrained())
 				H.visible_message("<B>[H]</B> [pick("гладит", "чешет шерстку")] <B>[P]</B>.")
 				if (istype(P.loc, /obj/structure/closet))
 					P.visible_message("<B>[H]</B> [pick("гладит", "чешет шерстку")] <B>[P]</B>.")
 
-		if (href_list["interaction"] == "give")
+		else if (href_list["interaction"] == "give")
 			if(((!istype(P.loc, /obj/structure/closet)) || (H.loc == P.loc)) && hashands && !H.restrained())
 				H.give(P)
 
-		if (href_list["interaction"] == "kiss")
+		else if (href_list["interaction"] == "kiss")
 			if( ((Adjacent(P) && !istype(P.loc, /obj/structure/closet)) || (H.loc == P.loc)) && mouthfree && mouthfree_p  && (P.species.name == "Human" || P.species.name == "Skrell" || P.species.name == "Arachna" || P.species.name == "Slime")  && (H.species.name == "Human" || H.species.name == "Skrell" || H.species.name == "Arachna" || H.species.name == "Slime"))
 				if (H.lust == 0)
 					H.visible_message("<B>[H]</B> целует <B>[P]</B>.")
@@ -737,7 +737,7 @@
 			else if (mouthfree)
 				H.visible_message("<B>[H]</B> посылает <B>[P]</B> воздушный поцелуй.")
 
-		if (href_list["interaction"] == "lick")
+		else if (href_list["interaction"] == "lick")
 			if( ((Adjacent(P) && !istype(P.loc, /obj/structure/closet)) || (H.loc == P.loc)) && mouthfree && mouthfree_p)
 				if (H.lust == 0)
 					H.visible_message("<B>[H]</B> [H.gender == FEMALE ? "лизнула" : "лизнул"] <B>[P]</B> в щеку.")
@@ -750,14 +750,14 @@
 					if (istype(P.loc, /obj/structure/closet))
 						P.visible_message("<B>[H]</B> особо тщательно [H.gender == FEMALE ? "лизнула" : "лизнул"] <B>[P]</B>.")
 
-		if (href_list["interaction"] == "hug")
+		else if (href_list["interaction"] == "hug")
 			if(((Adjacent(P) && !istype(P.loc, /obj/structure/closet)) || (H.loc == P.loc)) && hashands && !H.restrained())
 				H.visible_message("<B>[H]</B> обнимает <B>[P]</B>.")
 				if (istype(P.loc, /obj/structure/closet))
 					P.visible_message("<B>[H]</B> обнимает <B>[P]</B>.")
 				playsound(loc, 'sound/interactions/hug.ogg', 50, 1, -1)
 
-		if (href_list["interaction"] == "handshake")
+		else if (href_list["interaction"] == "handshake")
 			if(((Adjacent(P) && !istype(P.loc, /obj/structure/closet)) || (H.loc == P.loc)) && in_range(H, P) && hashands && hashands_p && !H.restrained() )
 				H.visible_message("<B>[H]</B> жмет руку <B>[P]</B>.")
 				if (istype(P.loc, /obj/structure/closet))
@@ -765,7 +765,7 @@
 			else if (hashands)
 				usr.visible_message("<B>[usr]</B> приветливо машет <B>[P]</B>.")
 
-		if (href_list["interaction"] == "slap")
+		else if (href_list["interaction"] == "slap")
 			if(((Adjacent(P) && !istype(P.loc, /obj/structure/closet)) || (H.loc == P.loc)) && hashands && !H.restrained())
 				H.visible_message("<span class='danger'>[usr] дает [P] пощечину!</span>")
 				if (istype(P.loc, /obj/structure/closet))
@@ -775,7 +775,7 @@
 					P.halloss += 5
 				add_logs(H, P, "slaped")
 
-		if (href_list["interaction"] == "assslap")
+		else if (href_list["interaction"] == "assslap")
 			if(((Adjacent(P) && !istype(P.loc, /obj/structure/closet)) || (H.loc == P.loc)) && isnude_p && hasanus_p && hashands && !H.restrained())
 				H.visible_message("<span class='danger'>[H] шлепает [P] по заднице!</span>")
 				if (istype(P.loc, /obj/structure/closet))
@@ -785,7 +785,7 @@
 					P.halloss += 5
 				add_logs(H, P, "ass slaped")
 
-		if (href_list["interaction"] == "pull")
+		else if (href_list["interaction"] == "pull")
 			if(((Adjacent(P) && !istype(P.loc, /obj/structure/closet)) || (H.loc == P.loc)) && hashands && !H.restrained() && P.species.name == "Tajara")
 				if (prob(30))
 					H.visible_message("<span class='danger'>[H] дёргает [P] за хвост!</span>")
@@ -799,23 +799,23 @@
 						P.visible_message("<B>[H]</B> пытаетс[ya] поймать <B>[P]</B> за хвост!")
 				add_logs(H, P, "teased")
 
-		if (href_list["interaction"] == "vaglick")
+		else if (href_list["interaction"] == "vaglick")
 			if(((Adjacent(P) && !istype(P.loc, /obj/structure/closet)) || (H.loc == P.loc)) && isnude_p && mouthfree && hasvagina_p)
 				H.fuck(H, P, "vaglick")
 
-		if (href_list["interaction"] == "asslick")
+		else if (href_list["interaction"] == "asslick")
 			if(((Adjacent(P) && !istype(P.loc, /obj/structure/closet)) || (H.loc == P.loc)) && isnude_p && mouthfree && hasanus_p)
 				usr.visible_message("<font color=purple>[H] вылизывает анус [P].</font>")
 
-		if (href_list["interaction"] == "fingering")
+		else if (href_list["interaction"] == "fingering")
 			if(((Adjacent(P) && !istype(P.loc, /obj/structure/closet)) || (H.loc == P.loc)) && isnude_p && hashands && hasvagina_p && !H.restrained())
 				H.fuck(H, P, "fingering")
 
-		if (href_list["interaction"] == "blowjob")
+		else if (href_list["interaction"] == "blowjob")
 			if(((Adjacent(P) && !istype(P.loc, /obj/structure/closet)) || (H.loc == P.loc)) && isnude_p && mouthfree && haspenis_p)
 				H.fuck(H, P, "blowjob")
 
-		if (href_list["interaction"] == "anal")
+		else if (href_list["interaction"] == "anal")
 			if (H.loc == P.loc && isnude_p && isnude && haspenis && hasanus_p && !H.restrained())
 				if (H.erpcooldown == 0)
 					if (H.potenzia > 0)
@@ -825,7 +825,7 @@
 					var/message = pick("Не хочетс[ya] мне...", "Как-то нет желани[ya]...", "Что-то не охота...", "Нет, не сейчас.")
 					H << message
 
-		if (href_list["interaction"] == "vaginal")
+		else if (href_list["interaction"] == "vaginal")
 			if (H.loc == P.loc && isnude_p && isnude && haspenis && hasanus_p && !H.restrained())
 				if (H.erpcooldown == 0)
 					if (H.potenzia > 0)
@@ -834,7 +834,7 @@
 					var/message = pick("Не хочетс[ya] мне...", "Как-то нет желани[ya]...", "Что-то не охота...", "Нет, не сейчас.")
 					H << message
 
-		if (href_list["interaction"] == "oral")
+		else if (href_list["interaction"] == "oral")
 			if (H.loc == P.loc && isnude && mouthfree_p && haspenis && !H.restrained())
 				if (H.erpcooldown == 0)
 					if (H.potenzia > 0)
@@ -843,7 +843,7 @@
 					var/message = pick("Не хочетс[ya] мне...", "Как-то нет желани[ya]...", "Что-то не охота...", "Нет, не сейчас.")
 					H << message
 
-		if (href_list["interaction"] == "mount")
+		else if (href_list["interaction"] == "mount")
 			if (H.loc == P.loc && isnude && isnude_p && haspenis_p && hasvagina && !H.restrained())
 				if (P.lust <= 0)
 					var/message = pick("Инструмент не переведен в рабочее состо[ya]ние...", "У него еще не встал...", "А он лежит...", "Никак не насадитьс[ya]...")
