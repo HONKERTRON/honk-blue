@@ -191,6 +191,9 @@
 			msg += "<span class='warning'>[t_He] [t_has] \icon[glasses] [glasses.gender==PLURAL?"some":"a"] [(glasses.blood_color != "#030303") ? "blood" : "oil"]-stained [glasses] covering [t_his] eyes!</span>\n"
 		else
 			msg += "[t_He] [t_has] \icon[glasses] \a [glasses] covering [t_his] eyes.\n"
+	else if (!skipeyes && druggy > 0)
+		msg += "<span class='warning'>Pupils are unusually huge!</span>\n"
+
 
 	//left ear
 	if(l_ear && !skipears)
