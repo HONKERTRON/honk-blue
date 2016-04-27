@@ -86,10 +86,16 @@
 
 	//Blood
 	if (A.blood_DNA && A.blood_DNA.len)
-		user << "<span class='notice'>Blood detected. Analysing...</span>"
-		spawn(15)
-			for(var/blood in A.blood_DNA)
-				user << "Blood type: \red [A.blood_DNA[blood]] \t \black DNA: \red [blood]"
+		if (istype(A,/obj/effect/decal/cleanable/cum))
+			user << "<span class='notice'>Sperm detected. Analysing...</span>"
+			spawn(15)
+				for(var/blood in A.blood_DNA)
+					user << "\black DNA: \red [blood]"
+		else
+			user << "<span class='notice'>Blood detected. Analysing...</span>"
+			spawn(15)
+				for(var/blood in A.blood_DNA)
+					user << "Blood type: \red [A.blood_DNA[blood]] \t \black DNA: \red [blood]"
 
 	user.visible_message("\The [user] scans \the [A] with \a [src], the air around [user.gender == MALE ? "him" : "her"] humming[prob(70) ? " gently." : "."]" ,\
 	"<span class='notice'>You finish scanning \the [A].</span>",\
