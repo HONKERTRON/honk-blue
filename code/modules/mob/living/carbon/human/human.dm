@@ -702,8 +702,8 @@
 		var/mouthfree_p = !( (P.head && (P.head.flags & HEADCOVERSMOUTH)) || (P.wear_mask && (P.wear_mask.flags & MASKCOVERSMOUTH)))
 		var/haspenis = (H.gender == MALE && H.potenzia > -1 && H.species.genitals)
 		var/haspenis_p = (P.gender == MALE && H.potenzia > -1  && P.species.genitals)
-		var/hasvagina = (H.gender == FEMALE && H.species.genitals && H.species.name != "Unathi")
-		var/hasvagina_p = (P.gender == FEMALE && P.species.genitals && P.species.name != "Unathi")
+		var/hasvagina = (H.gender == FEMALE && H.species.genitals && H.species.name != "Unathi" && H.species.name != "Stok")
+		var/hasvagina_p = (P.gender == FEMALE && P.species.genitals && P.species.name != "Unathi" && P.species.name != "Stok")
 		var/hasanus_p = P.species.anus
 		var/isnude = ( !H.wear_suit && !H.w_uniform && !H.underwear)
 		var/isnude_p = ( !P.wear_suit && !P.w_uniform && !P.underwear)
