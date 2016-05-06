@@ -81,9 +81,9 @@
 	var/ya = "&#255;"
 
 	dat +=  {"• <A href='?src=\ref[usr];interaction=bow'>Отвесить поклон.</A><BR>"}
+	dat +=  {"• <A href='?src=\ref[src];interaction=handshake'>Поприветствовать.</A><BR>"}
 	if (hashands)
 		dat +=  {"<font size=3><B>Руки:</B></font><BR>"}
-		dat +=  {"• <A href='?src=\ref[src];interaction=handshake'>Поприветствовать.</A><BR>"}
 		if (Adjacent(P))
 			dat +=  {"• <A href='?src=\ref[usr];interaction=hug'>Обнимашки!</A><BR>"}
 			dat +=  {"• <A href='?src=\ref[usr];interaction=cheer'>Похлопать по плечу</A><BR>"}
@@ -106,9 +106,9 @@
 
 	if (mouthfree)
 		dat += {"<font size=3><B>Лицо:</B></font><BR>"}
+		dat += {"• <A href='?src=\ref[usr];interaction=kiss'>Поцеловать.</A><BR>"}
 		if (Adjacent(P))
 			if (mouthfree_p)
-				dat += {"• <A href='?src=\ref[usr];interaction=kiss'>Поцеловать.</A><BR>"}
 				if (H.species.name == "Tajara")
 					dat += {"• <A href='?src=\ref[usr];interaction=lick'>Лизнуть в щеку.</A><BR>"}
 			if (isnude_p)
@@ -353,11 +353,11 @@ mob/living/carbon/human/proc/fuck(mob/living/carbon/human/H as mob, mob/living/c
 				P.cum(P, H, "mouth")
 		playsound(loc, "sound/interactions/bj[rand(1, 11)].ogg", 50, 1, -1)
 
-		if (prob(10))
+		if (prob(P.potenzia))
 			P.oxyloss += 3
-			H.visible_message("<B>[H]</B> [pick("давится инструментом <B>[P]</B>", "задыхается", "корчится в рвотном позыве")].")
+			H.visible_message("<B>[H]</B> [pick("давитс[ya] инструментом <B>[P]</B>", "задыхаетс[ya]", "корчитс[ya] в рвотном позыве")].")
 			if (istype(P.loc, /obj/structure/closet))
-				P.visible_message("<B>[H]</B> [pick("давится инструментом <B>[P]</B>", "задыхается", "корчится в рвотном позыве")].")
+				P.visible_message("<B>[H]</B> [pick("давитс[ya] инструментом <B>[P]</B>", "задыхаетс[ya]", "корчитс[ya] в рвотном позыве")].")
 
 	else if (hole == "vaginal")
 
@@ -370,7 +370,6 @@ mob/living/carbon/human/proc/fuck(mob/living/carbon/human/H as mob, mob/living/c
 				message = pick("грубо трахает [P].", "предаётс[ya] страстной любви с [P].", "резким движением погружаетс[ya] внутрь [P].", "движетс[ya] внутри [P].", "двигает тазом, засажива[ya] член в [P].", "стонет, навалива[ya]сь на [P].", "сильно прижимаетс[ya] пахом к [P].", "насаживает [P] на свой член.", "чувственно имеет [P].")
 			else if (P.species.name == "Slime")
 				message = pick("грубо трахает [P].", "предаётс[ya] страстной любви с [P].", "резким движением погружаетс[ya] внутрь [P].", "движетс[ya] внутри [P].", "двигает тазом, засажива[ya] член в [P].", "стонет, навалива[ya]сь на [P].", "сильно прижимаетс[ya] пахом к [P].", "насаживает [P] на свой член.", "чувственно имеет [P].")
-				playsound(loc, "sound/interactions/champ[rand(1, 2)].ogg", 50, 1, -1)
 
 		if (H.lastfucked != P || H.lfhole != hole)
 			message = pick("всаживает свой член по самые [ya]йца в [P].", "вводит свой орган любви в лоно [P].", "погружает свой корень похоти внутрь [P].", "проникает в [P].")
@@ -396,6 +395,8 @@ mob/living/carbon/human/proc/fuck(mob/living/carbon/human/H as mob, mob/living/c
 			else
 				P.moan()
 		playsound(loc, "sound/interactions/bang[rand(1, 3)].ogg", 70, 1, -1)
+		if (P.species.name == "Slime")
+			playsound(loc, "sound/interactions/champ[rand(1, 2)].ogg", 50, 1, -1)
 
 	else if (hole == "anal")
 
@@ -413,7 +414,6 @@ mob/living/carbon/human/proc/fuck(mob/living/carbon/human/H as mob, mob/living/c
 				message = pick("трахает [P] в анальный проход.", "всаживает член [P] в анальное кольцо по самые [ya]йца.", "месит глину в шахте [P].", "разрывает [P] очко бешеными фрикциyми.", "запускает своего шахтера в угольные шахты [P].")
 			if (P.species.name == "Slime")
 				message = pick("трахает [P] в задницу.", "всаживает член [P] в анальное кольцо по самые [ya]йца, л[ya]па[ya]сь в в[ya]зкой слизи.", "разрывает [P] очко бешеными фрикциyми.")
-				playsound(loc, "sound/interactions/champ[rand(1, 2)].ogg", 50, 1, -1)
 
 		if (H.lastfucked != P || H.lfhole != hole)
 			message = pick(" безжалостно прорывает анальное отверстие [P].", "всаживает член [P] в очко.")
@@ -439,6 +439,8 @@ mob/living/carbon/human/proc/fuck(mob/living/carbon/human/H as mob, mob/living/c
 			else
 				P.moan()
 		playsound(loc, "sound/interactions/bang[rand(1, 3)].ogg", 70, 1, -1)
+		if (P.species.name == "Slime")
+			playsound(loc, "sound/interactions/champ[rand(1, 2)].ogg", 50, 1, -1)
 
 	else if (hole == "oral")
 
@@ -482,11 +484,11 @@ mob/living/carbon/human/proc/fuck(mob/living/carbon/human/H as mob, mob/living/c
 		playsound(loc, "sound/interactions/oral[rand(1, 2)].ogg", 50, 1, -1)
 		if (P.species.name == "Slime")
 			playsound(loc, "sound/interactions/champ[rand(1, 2)].ogg", 50, 1, -1)
-		if (prob(10))
+		if (prob(H.potenzia))
 			P.oxyloss += 3
-			H.visible_message("<B>[P]</B> [pick("давится инструментом <B>[H]</B>", "задыхается", "корчится в рвотном позыве")].")
+			H.visible_message("<B>[P]</B> [pick("давитс[ya] инструментом <B>[H]</B>", "задыхаетс[ya]", "корчитс[ya] в рвотном позыве")].")
 			if (istype(P.loc, /obj/structure/closet))
-				P.visible_message("<B>[P]</B> [pick("давится инструментом <B>[H]</B>", "задыхается", "корчится в рвотном позыве")].")
+				P.visible_message("<B>[P]</B> [pick("давитс[ya] инструментом <B>[H]</B>", "задыхаетс[ya]", "корчитс[ya] в рвотном позыве")].")
 
 
 	else if (hole == "mount")
