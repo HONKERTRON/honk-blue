@@ -700,11 +700,11 @@
 			hashands = (temp && temp.is_usable())
 		var/mouthfree = !((H.head && (H.head.flags & HEADCOVERSMOUTH)) || (H.wear_mask && (H.wear_mask.flags & MASKCOVERSMOUTH)))
 		var/mouthfree_p = !( (P.head && (P.head.flags & HEADCOVERSMOUTH)) || (P.wear_mask && (P.wear_mask.flags & MASKCOVERSMOUTH)))
-		var/haspenis = (H.gender == MALE && H.potenzia > -1 && (H.species.name == "Human" || H.species.name == "Unathi" || H.species.name == "Tajara"))
-		var/haspenis_p = (P.gender == MALE && H.potenzia > -1  && (P.species.name == "Human" || P.species.name == "Unathi" || P.species.name == "Tajara"))
-		var/hasvagina = (H.gender == FEMALE && (H.species.name == "Human" || H.species.name == "Tajara" || H.species.name == "Slime"))
-		var/hasvagina_p = (P.gender == FEMALE && (P.species.name == "Human" || P.species.name == "Tajara" || P.species.name == "Slime"))
-		var/hasanus_p = (P.species.name == "Human" || P.species.name == "Unathi" || P.species.name == "Tajara" || P.species.name == "Skrell" || P.species.name == "Slime" || istype(P.species, /datum/species/xenos))
+		var/haspenis = (H.gender == MALE && H.potenzia > -1 && H.species.genitals)
+		var/haspenis_p = (P.gender == MALE && H.potenzia > -1  && P.species.genitals)
+		var/hasvagina = (H.gender == FEMALE && H.species.genitals && H.species.name != "Unathi")
+		var/hasvagina_p = (P.gender == FEMALE && P.species.genitals && P.species.name != "Unathi")
+		var/hasanus_p = P.species.anus
 		var/isnude = ( !H.wear_suit && !H.w_uniform && !H.underwear)
 		var/isnude_p = ( !P.wear_suit && !P.w_uniform && !P.underwear)
 		var/ya = "&#255;"
@@ -761,7 +761,7 @@
 				playsound(loc, 'sound/interactions/hug.ogg', 50, 1, -1)
 
 		else if (href_list["interaction"] == "handshake")
-			if(((Adjacent(P) && !istype(P.loc, /obj/structure/closet)) || (H.loc == P.loc)) && in_range(H, P) && hashands && hashands_p)
+			if(((Adjacent(P) && !istype(P.loc, /obj/structure/closet)) || (H.loc == P.loc)) && hashands && hashands_p)
 				H.visible_message("<B>[H]</B> жмет руку <B>[P]</B>.")
 				if (istype(P.loc, /obj/structure/closet))
 					P.visible_message("<B>[H]</B> жмет руку <B>[P]</B>.")

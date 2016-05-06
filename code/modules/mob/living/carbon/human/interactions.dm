@@ -15,6 +15,24 @@
 /mob/proc/make_interaction()
 	return
 
+/datum/species/xenos
+	genitals = 0
+	anus = 1
+
+/datum/species/human
+	genitals = 1
+	anus = 1
+
+/datum/species/unathi
+	genitals = 1
+	anus = 1
+
+/datum/species/tajaran
+	genitals = 1
+	anus = 1
+
+/datum/species/human/skrell
+	genitals = 0
 
 /mob/living/carbon/human/make_interaction()
 	set_machine(src)
@@ -33,11 +51,11 @@
 		hashands = (temp && temp.is_usable())
 	var/mouthfree = !((H.head && (H.head.flags & HEADCOVERSMOUTH)) || (H.wear_mask && (H.wear_mask.flags & MASKCOVERSMOUTH)))
 	var/mouthfree_p = !( (P.head && (P.head.flags & HEADCOVERSMOUTH)) || (P.wear_mask && (P.wear_mask.flags & MASKCOVERSMOUTH)))
-	var/haspenis = (H.gender == MALE && H.potenzia > -1 && (H.species.name == "Human" || H.species.name == "Unathi" || H.species.name == "Tajara"))
-	var/haspenis_p = (P.gender == MALE && H.potenzia > -1  && (P.species.name == "Human" || P.species.name == "Unathi" || P.species.name == "Tajara"))
-	var/hasvagina = (H.gender == FEMALE && (H.species.name == "Human" || H.species.name == "Tajara" || H.species.name == "Slime"))
-	var/hasvagina_p = (P.gender == FEMALE && (P.species.name == "Human" || P.species.name == "Tajara" || P.species.name == "Slime"))
-	var/hasanus_p = (P.species.name == "Human" || P.species.name == "Unathi" || P.species.name == "Tajara" || P.species.name == "Skrell" || P.species.name == "Slime" || istype(P.species, /datum/species/xenos))
+	var/haspenis = (H.gender == MALE && H.potenzia > -1 && H.species.genitals)
+	var/haspenis_p = (P.gender == MALE && H.potenzia > -1  && P.species.genitals)
+	var/hasvagina = (H.gender == FEMALE && H.species.genitals && H.species.name != "Unathi")
+	var/hasvagina_p = (P.gender == FEMALE && P.species.genitals && P.species.name != "Unathi")
+	var/hasanus_p = P.species.anus
 	var/isnude = ( !H.wear_suit && !H.w_uniform && !H.underwear)
 	var/isnude_p = ( !P.wear_suit && !P.w_uniform && !P.underwear)
 
@@ -136,7 +154,7 @@ mob/living/carbon/human/proc/cum(mob/living/carbon/human/H as mob, mob/living/ca
 			else
 				C.blood_DNA[source.data["blood_DNA"]] = "O+"
 
-		if (hole == "mouth")
+		if (hole == "mouth" || H.zone_sel.selecting == "mouth")
 			message = pick("кончает [P] в рот.", "целитс[ya] в лицо [P], стрел[ya]ет тугой струёй малафьи, но промахиваетс[ya].", "разбрызгивает сем[ya] на лицо [P].", "кончает на пол.")
 			playsound(loc, "sound/interactions/final_m[rand(1, 2)].ogg", 50, 1, -1)
 		else if (hole == "vagina")
@@ -159,7 +177,7 @@ mob/living/carbon/human/proc/cum(mob/living/carbon/human/H as mob, mob/living/ca
 		H.visible_message("<B>[H] [message].</B>")
 		if (istype(P.loc, /obj/structure/closet))
 			P.visible_message("<B>[H] [message].</B>")
-		playsound(loc, "sound/interactions/final_f[rand(1, 3)].ogg", 50, 0, -1)
+		playsound(loc, "sound/interactions/final_f[rand(1, 3)].ogg", 50, 1, -1)
 		var/delta = pick(20, 30, 40, 50)
 		src.lust -= delta
 
@@ -167,8 +185,7 @@ mob/living/carbon/human/proc/cum(mob/living/carbon/human/H as mob, mob/living/ca
 	H.multiorgasms += 1
 	if (H.multiorgasms == 1)
 		admin_attack_log(H, P, "Came", "Became a target of a cumshot", "is cumming on")
-	var/delta = pick(-50, 0, 50, 100)
-	H.erpcooldown = 300 + delta
+	H.erpcooldown = rand(200, 450)
 	if (H.multiorgasms > H.potenzia / 3)
 		if (H.halloss < P.potenzia * 4)
 			H.halloss += H.potenzia
@@ -177,9 +194,7 @@ mob/living/carbon/human/proc/cum(mob/living/carbon/human/H as mob, mob/living/ca
 			H.erpcooldown = 600
 
 mob/living/carbon/human/proc/fuck(mob/living/carbon/human/H as mob, mob/living/carbon/human/P as mob, var/hole)
-	//var/adverb = pick("неистово ", "[ya]ростно", "нежно", ",т[ya]жело дыша, ", "")
 	var/ya = "&#255;"
-	var/adverb = ""
 	var/message = ""
 
 	if (hole == "vaglick")
@@ -187,7 +202,6 @@ mob/living/carbon/human/proc/fuck(mob/living/carbon/human/H as mob, mob/living/c
 		message = pick("вылизывает [P].", "отлизывает [P].")
 		if (prob(35))
 			if (P.species.name == "Human")
-				//adverb = pick(", причмокива[ya],", ", почавкива[ya],", " нежно", ", т[ya]жело дыша,", " ")
 				message = pick("вылизывает [P].", "полирует промежность [P] [ya]зыком.", "отлизывает [P].", "ласкает [P] [ya]зычком.", "погружает свой [ya]зык в [P]", "играетс[ya] с [P] [ya]зычком", "медленно проводит [ya]зыком вдоль промежности [P]")
 			if (P.species.name == "Tajara")
 				message = pick("вылизывает [P].", "полирует промежность [P] [ya]зыком.", "отлизывает [P].", "ласкает [P] [ya]зычком.", "погружает свой [ya]зык в [P]", "играетс[ya] с [P] [ya]зычком", "медленно проводит [ya]зыком вдоль промежности [P]")
@@ -198,12 +212,12 @@ mob/living/carbon/human/proc/fuck(mob/living/carbon/human/H as mob, mob/living/c
 			add_logs(H, P, "licked")
 
 		if (prob(5) && P.stat != DEAD)
-			H.visible_message("<font color=purple><B>[H][adverb] [message]</B></font>")
+			H.visible_message("<font color=purple><B>[H] [message]</B></font>")
 			P.lust += 10
 		else
-			H.visible_message("<font color=purple>[H][adverb] [message]</font>")
+			H.visible_message("<font color=purple>[H] [message]</font>")
 		if (istype(P.loc, /obj/structure/closet))
-			P.visible_message("<font color=purple>[H][adverb] [message]</font>")
+			P.visible_message("<font color=purple>[H] [message]</font>")
 		if (P.stat != DEAD && P.stat != UNCONSCIOUS)
 			P.lust += 10
 			if (P.lust >= P.resistenza)
@@ -213,7 +227,7 @@ mob/living/carbon/human/proc/fuck(mob/living/carbon/human/H as mob, mob/living/c
 
 	else if (hole == "fingering")
 
-		message = pick("вводит два пальца в вагину [P].")
+		message = pick("вводит два пальца в вагину [P].", "трахает [P] пальцами.")
 		if (prob(35))
 			if (P.species.name == "Human")
 				//adverb = pick(", т[ya]жело вздыха[ya],", ", облизыва[ya]сь,", " нежно", ", т[ya]жело дыша,", " ", " неистово", " [ya]ростно")
@@ -227,12 +241,12 @@ mob/living/carbon/human/proc/fuck(mob/living/carbon/human/H as mob, mob/living/c
 			add_logs(H, P, "fingered")
 
 		if (prob(5) && P.stat != DEAD)
-			H.visible_message("<font color=purple><B>[H][adverb] [message]</B></font>")
+			H.visible_message("<font color=purple><B>[H] [message]</B></font>")
 			P.lust += 8
 		else
-			H.visible_message("<font color=purple>[H][adverb] [message]</font>")
+			H.visible_message("<font color=purple>[H] [message]</font>")
 		if (istype(P.loc, /obj/structure/closet))
-			P.visible_message("<font color=purple>[H][adverb] [message]</font>")
+			P.visible_message("<font color=purple>[H] [message]</font>")
 		if (P.stat != DEAD && P.stat != UNCONSCIOUS)
 			P.lust += 8
 			if (P.lust >= P.resistenza)
@@ -308,12 +322,12 @@ mob/living/carbon/human/proc/fuck(mob/living/carbon/human/H as mob, mob/living/c
 		if (H.lust < 6)
 			H.lust += 6
 		if (prob(5) && P.stat != DEAD)
-			H.visible_message("<font color=purple><B>[H][adverb] [message]</B></font>")
+			H.visible_message("<font color=purple><B>[H] [message]</B></font>")
 			P.lust += 10
 		else
-			H.visible_message("<font color=purple>[H][adverb] [message]</font>")
+			H.visible_message("<font color=purple>[H] [message]</font>")
 		if (istype(P.loc, /obj/structure/closet))
-			P.visible_message("<font color=purple>[H][adverb] [message]</font>")
+			P.visible_message("<font color=purple>[H] [message]</font>")
 		if (P.stat != DEAD && P.stat != UNCONSCIOUS)
 			P.lust += 10
 			if (P.lust >= P.resistenza)
@@ -339,12 +353,12 @@ mob/living/carbon/human/proc/fuck(mob/living/carbon/human/H as mob, mob/living/c
 			add_logs(H, P, "fucked")
 
 		if (prob(5) && P.stat != DEAD)
-			H.visible_message("<font color=purple><B>[H][adverb] [message]</B></font>")
+			H.visible_message("<font color=purple><B>[H] [message]</B></font>")
 			P.lust += H.potenzia * 2
 		else
-			H.visible_message("<font color=purple>[H][adverb] [message]</font>")
+			H.visible_message("<font color=purple>[H] [message]</font>")
 		if (istype(P.loc, /obj/structure/closet))
-			P.visible_message("<font color=purple>[H][adverb] [message]</font>")
+			P.visible_message("<font color=purple>[H] [message]</font>")
 		H.lust += 10
 		if (H.lust >= H.resistenza)
 			H.cum(H, P, "vagina")
@@ -383,12 +397,12 @@ mob/living/carbon/human/proc/fuck(mob/living/carbon/human/H as mob, mob/living/c
 			add_logs(H, P, "fucked in anus")
 
 		if (prob(5) && P.stat != DEAD)
-			H.visible_message("<font color=purple><B>[H][adverb] [message]</B></font>")
+			H.visible_message("<font color=purple><B>[H] [message]</B></font>")
 			P.lust += H.potenzia * 2
 		else
-			H.visible_message("<font color=purple>[H][adverb] [message]</font>")
+			H.visible_message("<font color=purple>[H] [message]</font>")
 		if (istype(P.loc, /obj/structure/closet))
-			P.visible_message("<font color=purple>[H][adverb] [message]</font>")
+			P.visible_message("<font color=purple>[H] [message]</font>")
 		H.lust += 12
 		if (H.lust >= H.resistenza)
 			H.cum(H, P, "anus")
@@ -405,7 +419,7 @@ mob/living/carbon/human/proc/fuck(mob/living/carbon/human/H as mob, mob/living/c
 
 	else if (hole == "oral")
 
-		message = pick("трахает [P], засажива[ya] свой член [P.gender == FEMALE ? "ей" : "ему"] в глотку.", "орально сношает [P].")
+		message = pick(" трахает [P], засажива[ya] свой член [P.gender == FEMALE ? "ей" : "ему"] в глотку.", " орально сношает [P].")
 		if (prob(35))
 			if (P.species.name == "Human")
 				message = pick(" опираетс[ya] на плечи [P], придержива[ya] [P.gender==FEMALE ? "её" : "его"] и засажива[ya] член всё сильнее и сильнее [P.gender==FEMALE ? "ей" : "ему"] в глотку.", " трахает [P] в рот.", " насаживает голову [P] на свой член.", " держит [P] за голову двум[ya] руками и совершает движени[ya] тазом.", " даёт пощёчины [P], продолжа[ya] ебать жертву в рот.", " безжастно пользуетс[ya] глоткой [P].", ", рыча сквозь зубы, нат[ya]гивает глотку [P] на своего малыша.")
@@ -450,12 +464,12 @@ mob/living/carbon/human/proc/fuck(mob/living/carbon/human/H as mob, mob/living/c
 
 	else if (hole == "mount")
 
-		message = pick("скачет на члене [P].", "прыгает на инструменете [P].", "насаживаетс[ya] на [P].")
+		message = pick("скачет на члене [P]", "прыгает на инструменете [P]", "насаживаетс[ya] на [P]")
 		if (prob(35))
 			message = pick("седлает тело [P], словно наездница", "скачет на малыше [P]", "прыгает на [P], удар[ya][ya]сь о его гладкую кожу", "радостно подпрыгивает, доставл[ya][ya] удовольствие себе и [P]", "уперлась тазом в [P] и елозит, как егоза", "делает кульбиты на половом органе [P]", "вприпрыжку наваливаетс[ya] на [P], вз[ya]в внутрь его член", "набрасывает своё лоно на крючок [P], дав[ya] на него своим тазом", "впускает внутрь себ[ya] зверька [P]")
 
 		if (H.lastfucked != P || H.lfhole != hole)
-			message = pick("осторожно насаживаетс[ya] на половой орган [P].")
+			message = pick("осторожно насаживаетс[ya] на половой орган [P]")
 			H.lastfucked = P
 			H.lfhole = hole
 			add_logs(H, P, "fucked")
@@ -486,36 +500,48 @@ mob/living/carbon/human/proc/moan()
 	var/ya = "&#255;"
 	var/mob/living/carbon/human/H = src
 	if (H.species.name == "Human" || H.species.name == "Skrell" || H.species.name == "Arachna" || H.species.name == "Slime")
-		if (prob(src.lust / src.resistenza * 70))
+		if (prob(H.lust / H.resistenza * 70))
 			var/message = pick("постанывает", "стонет от удовольстви[ya]", "закатывает глаза", "закусывает губу")
-			src.visible_message("<B>[src]</B> [message].")
+			H.visible_message("<B>[H]</B> [message].")
 			var/moan = 0
-			if (src.gender == FEMALE)
-				if (src.lust > src.lust * 0.75)
+			if (H.gender == FEMALE)
+				if (H.lust > H.lust * 0.75)
 					moan = rand(14, 18)
-					if (moan == src.lastmoan)
+					if (moan == H.lastmoan)
 						moan -= 1
 					playsound(loc, "sound/interactions/moan_f[moan].ogg", 50, 0, -1)
 					src.lastmoan = moan
 				else
 					moan = rand(2, 13)
-					if (moan == src.lastmoan)
+					if (moan == H.lastmoan)
 						moan -= 1
 					playsound(loc, "sound/interactions/moan_f[moan].ogg", 50, 0, -1)
-					src.lastmoan = moan
+					H.lastmoan = moan
+				if (istype(H.head, /obj/item/clothing/head/kitty)  || istype(H.head, /obj/item/clothing/head/collectable/kitty))
+					playsound(loc, "sound/interactions/purr_f[rand(1, 2)].ogg", 50, 0, -1)
 	else if (H.species.name == "Tajara")
-		if (prob(src.lust / src.resistenza * 70))
+		if (prob(H.lust / src.resistenza * 70))
 			var/message = pick("мурлычет", "мурлычет от удовольстви[ya]", "закатывает глаза", "довольно облизываетс[ya]")
-			src.visible_message("<B>[src]</B> [message].")
+			H.visible_message("<B>[H]</B> [message].")
 			if (src.gender == FEMALE)
 				playsound(loc, "sound/interactions/purr_f[rand(1, 2)].ogg", 50, 0, -1)
 	else if (istype(H.species, /datum/species/xenos))
-		if (prob(src.lust / src.resistenza * 70))
+		if (prob(H.lust / H.resistenza * 70))
 			var/message = pick("довольно шипит", "извиваетс[ya] от удовольстви[ya]")
-			src.visible_message("<B>[src]</B> [message].")
+			H.visible_message("<B>[H]</B> [message].")
 			playsound(loc, "sound/voice/hiss[rand(2, 4)].ogg", 50, 0, -1)
 	else if (H.species.name == "Unathi")
-		if (prob(src.lust / src.resistenza * 70))
+		if (prob(H.lust / H.resistenza * 70))
 			var/message = pick("довольно шипит", "извиваетс[ya] от удовольстви[ya]")
-			src.visible_message("<B>[src]</B> [message].")
+			H.visible_message("<B>[H]</B> [message].")
 
+mob/living/carbon/human/proc/handle_lust()
+	lust -= 4
+	if (lust <= 0)
+		lust = 0
+		lastfucked = null
+		lfhole = ""
+	if (lust == 0)
+		erpcooldown -= 1
+	if (erpcooldown < 0)
+		erpcooldown = 0

@@ -147,6 +147,9 @@
 	//Species Abilities
 	var/tmp/evolution_points = 0 //How many points race have for abilities
 
+	//Holes
+	var/anus = 0
+	var/genitals = 0
 
 
 	// Srites
