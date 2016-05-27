@@ -688,6 +688,8 @@
 		//CONDITIONS
 		var/mob/living/carbon/human/H = usr
 		var/mob/living/carbon/human/P = H.partner
+		if (!(P in view(H.loc)))
+			return
 		var/obj/item/organ/external/temp = H.organs_by_name["r_hand"]
 		var/hashands = (temp && temp.is_usable())
 		if (!hashands)
@@ -775,13 +777,20 @@
 
 		else if (href_list["interaction"] == "handshake")
 			if(((Adjacent(P) && !istype(P.loc, /obj/structure/closet)) || (H.loc == P.loc)) && hashands && hashands_p)
-				H.visible_message("<B>[H]</B> жмет руку <B>[P]</B>.")
+				H.visible_message("<B>[H]</B> жмёт руку <B>[P]</B>.")
 				if (istype(P.loc, /obj/structure/closet))
-					P.visible_message("<B>[H]</B> жмет руку <B>[P]</B>.")
-			else if (hashands)
-				usr.visible_message("<B>[H]</B> приветливо машет <B>[P]</B>.")
+					P.visible_message("<B>[H]</B> жмёт руку <B>[P]</B>.")
 			else
-				usr.visible_message("<B>[H]</B> приветливо [H.gender == MALE ? "кивнул" : "кивнула"] в сторону <B>[P]</B>.")
+				H.visible_message("<B>[H]</B> приветливо [H.gender == MALE ? "кивнул" : "кивнула"] в сторону <B>[P]</B>.")
+				if (istype(P.loc, /obj/structure/closet))
+					P.visible_message("<B>[H]</B> приветливо [H.gender == MALE ? "кивнул" : "кивнула"] в сторону <B>[P]</B>.")
+
+		else if (href_list["interaction"] == "wave")
+			if (!(Adjacent(P)) && hashands)
+				H.visible_message("<B>[H]</B> приветливо машет <B>[P]</B>.")
+			else
+				H.visible_message("<B>[H]</B> приветливо [H.gender == MALE ? "кивнул" : "кивнула"] в сторону <B>[P]</B>.")
+
 
 		else if (href_list["interaction"] == "slap")
 			if(((Adjacent(P) && !istype(P.loc, /obj/structure/closet)) || (H.loc == P.loc)) && hashands)

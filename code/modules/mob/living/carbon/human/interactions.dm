@@ -21,7 +21,7 @@
 
 	if (istype(M, /mob/living/carbon/human) && usr != M)
 		partner = M
-		make_interaction()
+		make_interaction(machine)
 
 /datum/species/xenos
 	genitals = 0
@@ -81,7 +81,10 @@
 	var/ya = "&#255;"
 
 	dat +=  {"Х <A href='?src=\ref[usr];interaction=bow'>ќтвесить поклон.</A><BR>"}
-	dat +=  {"Х <A href='?src=\ref[src];interaction=handshake'>ѕоприветствовать.</A><BR>"}
+	if (Adjacent(P))
+		dat +=  {"Х <A href='?src=\ref[src];interaction=handshake'>ѕоприветствовать.</A><BR>"}
+	else
+		dat +=  {"Х <A href='?src=\ref[src];interaction=wave'>ѕоприветствовать.</A><BR>"}
 	if (hashands)
 		dat +=  {"<font size=3><B>–уки:</B></font><BR>"}
 		if (Adjacent(P))
@@ -151,6 +154,7 @@
 	var/erpcooldown = 0
 	var/multiorgasms = 0
 	var/lastmoan = 0
+	var/lastfinal = 0
 
 mob/living/carbon/human/proc/cum(mob/living/carbon/human/H as mob, mob/living/carbon/human/P as mob, var/hole)
 	var/message = "кончает на пол!"
@@ -160,7 +164,8 @@ mob/living/carbon/human/proc/cum(mob/living/carbon/human/H as mob, mob/living/ca
 	if (istype(H.species, /datum/species/xenos))
 		message = pick("извиваетс[ya] в приступе оргазма", "содрагаетс[ya], а затем резко расслабл[ya]етс[ya]")
 		src.visible_message("<B>[src] [message].</B>")
-		playsound(loc, "sound/voice/hiss6.ogg", 50, 0, -1)
+		if (multiorgasms == 0)
+			playsound(loc, "sound/voice/hiss6.ogg", 50, 0, -1)
 	else if (H.gender == MALE)
 		var/datum/reagent/blood/source = H.get_blood(H.vessel)
 		if (P)
@@ -199,7 +204,11 @@ mob/living/carbon/human/proc/cum(mob/living/carbon/human/H as mob, mob/living/ca
 		H.visible_message("<B>[H] [message].</B>")
 		if (istype(P.loc, /obj/structure/closet))
 			P.visible_message("<B>[H] [message].</B>")
-		playsound(loc, "sound/interactions/final_f[rand(1, 3)].ogg", 50, 1, -1)
+		var/final = rand(1, 3)
+		if (final == lastfinal)
+			final = ((final+1) % 3) + 1
+		playsound(loc, "sound/interactions/final_f[final].ogg", 50, 1, -1)
+		lastfinal = final
 		var/delta = pick(20, 30, 40, 50)
 		src.lust -= delta
 
@@ -354,7 +363,7 @@ mob/living/carbon/human/proc/fuck(mob/living/carbon/human/H as mob, mob/living/c
 		playsound(loc, "sound/interactions/bj[rand(1, 11)].ogg", 50, 1, -1)
 
 		if (prob(P.potenzia))
-			P.oxyloss += 3
+			H.oxyloss += 3
 			H.visible_message("<B>[H]</B> [pick("давитс[ya] инструментом <B>[P]</B>", "задыхаетс[ya]", "корчитс[ya] в рвотном позыве")].")
 			if (istype(P.loc, /obj/structure/closet))
 				P.visible_message("<B>[H]</B> [pick("давитс[ya] инструментом <B>[P]</B>", "задыхаетс[ya]", "корчитс[ya] в рвотном позыве")].")
