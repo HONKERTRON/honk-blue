@@ -555,8 +555,8 @@ mob/living/carbon/human/proc/moan()
 						moan -= 1
 					playsound(loc, "sound/interactions/moan_f[moan].ogg", 50, 0, -1)
 					H.lastmoan = moan
-				if (istype(H.head, /obj/item/clothing/head/kitty)  || istype(H.head, /obj/item/clothing/head/collectable/kitty))
-					playsound(loc, "sound/interactions/purr_f[rand(1, 2)].ogg", 50, 0, -1)
+			if (istype(H.head, /obj/item/clothing/head/kitty)  || istype(H.head, /obj/item/clothing/head/collectable/kitty))
+				playsound(loc, "sound/interactions/purr_f[rand(1, 2)].ogg", 50, 0, -1)
 	else if (H.species.name == "Tajara")
 		if (prob(H.lust / src.resistenza * 70))
 			var/message = pick("мурлычет", "мурлычет от удовольстви[ya]", "закатывает глаза", "довольно облизываетс[ya]")
