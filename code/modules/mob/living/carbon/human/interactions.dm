@@ -393,6 +393,7 @@ mob/living/carbon/human/proc/fuck(mob/living/carbon/human/H as mob, mob/living/c
 			H.visible_message("<font color=purple>[H] [message]</font>")
 		if (istype(P.loc, /obj/structure/closet))
 			P.visible_message("<font color=purple>[H] [message]</font>")
+			playsound(P.loc.loc, 'sound/effects/clang.ogg', 50, 0, 0)
 		H.lust += 10
 		if (H.lust >= H.resistenza)
 			H.cum(H, P, "vagina")
@@ -437,6 +438,7 @@ mob/living/carbon/human/proc/fuck(mob/living/carbon/human/H as mob, mob/living/c
 			H.visible_message("<font color=purple>[H] [message]</font>")
 		if (istype(P.loc, /obj/structure/closet))
 			P.visible_message("<font color=purple>[H] [message]</font>")
+			playsound(P.loc.loc, 'sound/effects/clang.ogg', 50, 0, 0)
 		H.lust += 12
 		if (H.lust >= H.resistenza)
 			H.cum(H, P, "anus")
@@ -485,6 +487,7 @@ mob/living/carbon/human/proc/fuck(mob/living/carbon/human/H as mob, mob/living/c
 			H.visible_message("<font color=purple>[H][message]</font>")
 		if (istype(P.loc, /obj/structure/closet))
 			P.visible_message("<font color=purple>[H][message]</font>")
+			playsound(P.loc.loc, 'sound/effects/clang.ogg', 50, 0, 0)
 		H.lust += 15
 		if (H.lust >= H.resistenza)
 			H.cum(H, P, "mouth")
@@ -519,6 +522,7 @@ mob/living/carbon/human/proc/fuck(mob/living/carbon/human/H as mob, mob/living/c
 			H.visible_message("<font color=purple>[H] [message].</font>")
 		if (istype(P.loc, /obj/structure/closet))
 			P.visible_message("<font color=purple>[H] [message].</font>")
+			playsound(P.loc.loc, 'sound/effects/clang.ogg', 50, 0, 0)
 		H.lust += P.potenzia * 1.5
 		if (H.lust >= H.resistenza)
 			H.cum(H, P)
